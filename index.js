@@ -6,7 +6,7 @@ const bodyParser = require("body-parser");
 const nodemailer = require("nodemailer");
 const app = express();
 
-const port = process.env.PORT;
+const port = process.env.PORT || 9000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -37,17 +37,13 @@ async function sendMailManager(msg) {
     const html = renderHTMLBody(msg);
     const text = JSON.stringify(msg, 4);
     const transporter = nodemailer.createTransport({
-        service: "gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
+        service: "Gmail",
         auth: {
+            type: "OAuth2",
             user: process.env.API_LOGIN,
-            pass: process.env.API_PASS,
-        },
-        tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: false,
+            refreshToken: process.env.REFRESH_TOKEN,
+            clientId: process.env.CLIENT_ID,
+            clientSecret: process.env.CLIENT_SECRET,
         },
     });
 
