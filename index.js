@@ -38,9 +38,16 @@ async function sendMailManager(msg) {
     const text = JSON.stringify(msg, 4);
     const transporter = nodemailer.createTransport({
         service: "gmail",
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true,
         auth: {
             user: process.env.API_LOGIN,
             pass: process.env.API_PASS,
+        },
+        tls: {
+            // do not fail on invalid certs
+            rejectUnauthorized: false,
         },
     });
 
