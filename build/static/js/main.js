@@ -1,4 +1,6 @@
 $(document).ready(function () {
+    $("#tel_1").inputmask("+7 (999) 999-99-99");
+    $("#tel_2").inputmask("+7 (999) 999-99-99");
     phoneFormat($(".phone"));
     smoothScrolling();
 
@@ -7,6 +9,14 @@ $(document).ready(function () {
             e.preventDefault();
 
             const form = $(this);
+            const fieldName = form.serializeArray().find((item) => item.name === "name");
+            if (!fieldName) return;
+            if (!fieldName.value) return alert("Введите корректное имя");
+
+            const fieldPhone = form.serializeArray().find((item) => item.name === "tel");
+            if (!fieldPhone) return;
+            const valuePhone = fieldPhone.value.replace(/[^\d]/g, "");
+            if (valuePhone.length !== 11) return alert("Введите корректный номер телефона");
 
             $.ajax({
                 type: "POST",
