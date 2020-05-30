@@ -11,25 +11,43 @@ $(document).ready(function () {
             const form = $(this);
             const fieldName = form.serializeArray().find((item) => item.name === "name");
             if (!fieldName) return;
-            if (!fieldName.value) return alert("Введите корректное имя");
+            if (!fieldName.value) return toast("Введите корректное имя", "error");
 
             const fieldPhone = form.serializeArray().find((item) => item.name === "tel");
             if (!fieldPhone) return;
             const valuePhone = fieldPhone.value.replace(/[^\d]/g, "");
-            if (valuePhone.length !== 11) return alert("Введите корректный номер телефона");
+            if (valuePhone.length !== 11) return toast("Введите корректный номер телефона", "error");
 
             $.ajax({
                 type: "POST",
                 url: "/question",
                 data: form.serialize(),
                 success: function ({ msg, status }) {
-                    alert(msg);
+                    toast(msg);
                     form.trigger("reset");
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    toast("Не удалось отправить сообщение, попробуйте еще раз", "error");
                 },
             });
         });
     });
 });
+
+function toast(msg, type = "valid") {
+    const bgColor = type === "valid" ? "#323232" : "#b92625";
+    return $.toast({
+        text: msg,
+        loader: false,
+        bgColor: bgColor,
+        textColor: "#eee",
+        allowToastClose: false,
+        hideAfter: 5000,
+        stack: 5,
+        textAlign: "left",
+        position: "top-right",
+    });
+}
 
 function phoneFormat(linkPhoneList) {
     $.each(linkPhoneList, function () {
