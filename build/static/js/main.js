@@ -2,6 +2,7 @@ $(document).ready(function () {
     $("#tel_1").inputmask("+7 (999) 999-99-99");
     $("#tel_2").inputmask("+7 (999) 999-99-99");
     phoneFormat($(".phone"));
+    phoneFormat2($(".phone2"));
     smoothScrolling();
 
     ["#question-form_1", "#question-form_2"].forEach(function (id) {
@@ -55,6 +56,16 @@ function phoneFormat(linkPhoneList) {
             return $(this)
                 .text()
                 .replace(/(\d\d\d)(\d\d\d)(\d\d)(\d\d)/, "+7 ($1)-$2-$3-$4");
+        });
+    });
+}
+
+function phoneFormat2(linkPhoneList) {
+    $.each(linkPhoneList, function () {
+        $(this).text(function () {
+            return $(this)
+                .text()
+                .replace(/(\d\d\d\d)(\d\d)(\d\d)(\d\d)/, "+7 ($1)-$2-$3-$4");
         });
     });
 }

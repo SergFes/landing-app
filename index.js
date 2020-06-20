@@ -12,7 +12,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use((req, res, next) => {
     console.log(`${req.method} ${req.url} body: `, req.body);
-    console.log(process.env.API_LOGIN, process.env.API_PASS);
     next();
 });
 app.use(helmet());
